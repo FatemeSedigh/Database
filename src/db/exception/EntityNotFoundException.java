@@ -1,7 +1,15 @@
 package db.exception;
 
 public class EntityNotFoundException extends RuntimeException {
+    public EntityNotFoundException() {
+        super("Cannot find entity");
+    }
+
+    public EntityNotFoundException(String message) {
+        super(message);
+    }
+
     public EntityNotFoundException(int id) {
-        super("موجودیتی با شناسه " + id + " یافت نشد");
+        super("Cannot find entity with id=" + id);
     }
 }
