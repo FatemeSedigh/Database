@@ -1,7 +1,6 @@
-package example;
-
 import db.Database;
 import db.exception.EntityNotFoundException;
+import example.Human;
 
 public class Main {
     public static void main(String[] args) {
