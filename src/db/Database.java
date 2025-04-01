@@ -29,4 +29,12 @@ public class Database {
         entities.remove(e);
     }
 
+    public static void update(Entity e) throws EntityNotFoundException{
+        Entity e_update = get(e.id);
+        int index = entities.indexOf(e_update);
+        entities.set(index, e);
+    }
+
+
+
 }
