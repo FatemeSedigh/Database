@@ -1,4 +1,4 @@
-package db.exception;
+package db;
 
 public class Database {
 }
