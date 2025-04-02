@@ -34,7 +34,4 @@ public class Database {
         int index = entities.indexOf(e_update);
         entities.set(index, e);
     }
-
-
-
 }
