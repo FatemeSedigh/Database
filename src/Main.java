@@ -48,5 +48,4 @@ public class Main {
         Human aliFromTheDatabase = (Human) Database.get(aliId);
         System.out.println("ali's name in the database: " + aliFromTheDatabase.name);
     }
-    //add quera code
 }
