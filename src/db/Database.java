@@ -1,16 +1,16 @@
 package db;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import db.exception.EntityNotFoundException;
 import db.exception.InvalidEntityException;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
-    private static final ArrayList<Entity> entities = new ArrayList<>();
+    private static final List<Entity> entities = new ArrayList<>();
     private static int nextId = 1;
-    private static HashMap<Integer, Validator> validators;
+    private static HashMap<Integer, Validator> validators = new HashMap<>();
 
     public static void registerValidator(int entityCode, Validator validator) {
         if (validators.containsKey(entityCode)) {
@@ -18,8 +18,6 @@ public class Database {
         }
         validators.put(entityCode, validator);
     }
-
-    private Database() {}
 
     public static void add(Entity e) throws InvalidEntityException {
         Validator validator = validators.get(e.getEntityCode());
