@@ -1,16 +1,32 @@
 package db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import db.exception.EntityNotFoundException;
+import db.exception.InvalidEntityException;
 
 public class Database {
 
     private static final ArrayList<Entity> entities = new ArrayList<>();
     private static int nextId = 1;
+    private static HashMap<Integer, Validator> validators;
+
+    public static void registerValidator(int entityCode, Validator validator) {
+        if (validators.containsKey(entityCode)) {
+            throw new IllegalArgumentException("Validator برای این entityCode قبلا ثبت شده");
+        }
+        validators.put(entityCode, validator);
+    }
 
     private Database() {}
 
-    public static void add(Entity e){
+    public static void add(Entity e) throws InvalidEntityException {
+        Validator validator = validators.get(e.getEntityCode());
+        if (validator != null) {
+            validator.validate(e);
+        }
+
         e.id = nextId++;
         entities.add(e.copy());
     }
@@ -33,5 +49,7 @@ public class Database {
         Entity e_update = get(e.id);
         int index = entities.indexOf(e_update);
         entities.set(index, e.copy());
+
+
     }
 }
