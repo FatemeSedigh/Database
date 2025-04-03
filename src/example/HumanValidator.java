@@ -1,3 +1,5 @@
+package example;
+
 import db.Entity;
 import db.Validator;
 import db.exception.InvalidEntityException;
@@ -5,6 +7,18 @@ import db.exception.InvalidEntityException;
 public class HumanValidator implements Validator {
     @Override
     public void validate(Entity entity) throws InvalidEntityException {
-        // Code for human validation
+
+        if (!(entity instanceof Human)) {
+            throw new IllegalArgumentException("ورودی باید از نوع Human باشد");
+        }
+        Human human = (Human) entity;
+
+        if (human.name == null || human.name.trim().isEmpty()) {
+            throw new InvalidEntityException("نام نمی‌تواند خالی باشد");
+        }
+
+        if (human.age < 0) {
+            throw new InvalidEntityException("سن نمی‌تواند منفی باشد");
+        }
     }
 }
