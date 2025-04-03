@@ -49,7 +49,6 @@ public class Database {
         Entity e_update = get(e.id);
         int index = entities.indexOf(e_update);
         entities.set(index, e.copy());
-
-
     }
+
 }
