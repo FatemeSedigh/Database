@@ -11,7 +11,11 @@ public class HumanValidator implements Validator {
         if (!(entity instanceof Human)) {
             throw new IllegalArgumentException("ورودی باید از نوع Human باشد");
         }
+        Human human = (Human) entity;
 
+        if (human.name == null || human.name.trim().isEmpty()) {
+            throw new InvalidEntityException("نام نمی‌تواند خالی باشد");
+        }
 
 
     }
