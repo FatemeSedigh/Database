@@ -17,6 +17,8 @@ public class HumanValidator implements Validator {
             throw new InvalidEntityException("نام نمی‌تواند خالی باشد");
         }
 
-
+        if (human.age < 0) {
+            throw new InvalidEntityException("سن نمی‌تواند منفی باشد");
+        }
     }
 }
