@@ -56,7 +56,11 @@ public class Database {
 
     public static void update(Entity e) throws InvalidEntityException {
         Entity existing = get(e.id);
+
         int index = entities.indexOf(existing);
+        if (index == -1) {
+            throw new IllegalStateException("Entity exists but not found in list");
+        }
 
         Validator validator = validators.get(e.getEntityCode());
         if (validator != null) {
@@ -64,8 +68,7 @@ public class Database {
         }
 
         if (e instanceof Trackable) {
-            Trackable trackable = (Trackable) e;
-            trackable.setLastModificationDate(new Date());
+            ((Trackable) e).setLastModificationDate(new Date());
         }
 
         entities.set(index, e.copy());
