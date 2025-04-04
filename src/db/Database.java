@@ -55,11 +55,23 @@ public class Database {
     }
 
     public static void update(Entity e) throws InvalidEntityException {
-        Entity existing = get(e.id);
+        Entity existing = null;
+        try {
+            existing = get(e.id);
+        } catch (EntityNotFoundException ex) {
+            throw new InvalidEntityException("Entity with id " + e.id + " not found");
+        }
 
-        int index = entities.indexOf(existing);
+        int index = -1;
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).id == e.id) {
+                index = i;
+                break;
+            }
+        }
+
         if (index == -1) {
-            throw new IllegalStateException("Entity exists but not found in list");
+            throw new IllegalStateException("Entity with id " + e.id + " not found in list despite get() success");
         }
 
         Validator validator = validators.get(e.getEntityCode());
