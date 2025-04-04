@@ -1,6 +1,6 @@
 import db.Database;
-import db.exception.InvalidEntityException;
-import example.Document;
+import db.exception.*;
+import example.*;
 
 public class Main {
     public static void main(String[] args) throws InvalidEntityException {
