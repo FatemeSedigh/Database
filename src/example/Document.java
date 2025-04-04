@@ -2,6 +2,8 @@ package example;
 
 import db.Entity;
 import db.Trackable;
+
+import java.awt.font.TextHitInfo;
 import java.util.Date;
 
 public class Document extends Entity implements Trackable {
@@ -42,6 +44,25 @@ public class Document extends Entity implements Trackable {
         return content;
     }
 
+    @Override
+    public abstract Document copy(){
 
+        Document copy = new Document(this.content);
+        copy.id = this.id;
 
+        if (this.creationDate != null){
+            copy.creationDate = new Date(this.creationDate.getTime());
+        }
+
+        if (this.lastModificationDate != null){
+            copy.lastModificationDate = new Date(this.lastModificationDate.getTime());
+        }
+
+        return copy;
+    }
+
+    @Override
+    public int getEntityCode() {
+        return 15;
+    }
 }
