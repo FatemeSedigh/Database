@@ -34,5 +34,14 @@ public class Document extends Entity implements Trackable {
         return new Date(lastModificationDate.getTime());
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+
 
 }
