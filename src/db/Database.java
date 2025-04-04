@@ -55,8 +55,24 @@ public class Database {
     }
 
     public static void update(Entity e) throws InvalidEntityException {
-        Entity existing = get(e.id);
-        int index = entities.indexOf(existing);
+        Entity existing = null;
+        try {
+            existing = get(e.id);
+        } catch (EntityNotFoundException ex) {
+            throw new InvalidEntityException("Entity with id " + e.id + " not found");
+        }
+
+        int index = -1;
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).id == e.id) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            throw new IllegalStateException("Entity with id " + e.id + " not found in list despite get() success");
+        }
 
         Validator validator = validators.get(e.getEntityCode());
         if (validator != null) {
@@ -64,8 +80,7 @@ public class Database {
         }
 
         if (e instanceof Trackable) {
-            Trackable trackable = (Trackable) e;
-            trackable.setLastModificationDate(new Date());
+            ((Trackable) e).setLastModificationDate(new Date());
         }
 
         entities.set(index, e.copy());

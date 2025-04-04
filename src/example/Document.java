@@ -2,8 +2,6 @@ package example;
 
 import db.Entity;
 import db.Trackable;
-
-import java.awt.font.TextHitInfo;
 import java.util.Date;
 
 public class Document extends Entity implements Trackable {
@@ -45,7 +43,7 @@ public class Document extends Entity implements Trackable {
     }
 
     @Override
-    public abstract Document copy(){
+    public Document copy(){
 
         Document copy = new Document(this.content);
         copy.id = this.id;
