@@ -8,6 +8,9 @@ public class Step extends Entity {
         NotStarted, Completed
     }
 
+    private String title;
+    private Status status;
+    private int taskRef;
 
 
 }
