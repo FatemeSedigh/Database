@@ -17,6 +17,13 @@ public class Task extends Entity implements Trackable {
     private Date creationDate;
     private Date lastModificationDate;
 
+    public Task(String title, String description, Date dueDate) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = Status.NotStarted;
+    }
+
 
 
 }
