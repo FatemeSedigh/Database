@@ -24,5 +24,9 @@ public class Step extends Entity {
     public void setStatus(Status status) { this.status = status; }
     public int getTaskRef() { return taskRef; }
 
+    @Override
+    public int getEntityCode() {
+        return 2;
+    }
 
 }
