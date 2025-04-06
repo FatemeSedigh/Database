@@ -12,5 +12,12 @@ public class Step extends Entity {
     private Status status;
     private int taskRef;
 
+    public Step(String title, int taskRef) {
+        this.title = title;
+        this.taskRef = taskRef;
+        this.status = Status.NotStarted;
+    }
+
+
 
 }
