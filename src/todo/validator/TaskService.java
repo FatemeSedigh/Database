@@ -1,6 +1,7 @@
 package todo.validator;
 
 import db.Database;
+import db.exception.EntityNotFoundException;
 import db.exception.InvalidEntityException;
 import todo.entity.Task;
 import todo.service.TaskValidator;
@@ -17,6 +18,11 @@ public class TaskService {
         Database.add(task);
     }
 
-
+    public static void updateTaskStatus(int taskId, Task.Status newStatus)
+            throws EntityNotFoundException, InvalidEntityException {
+        Task task = (Task) Database.get(taskId);
+        task.setStatus(newStatus);
+        Database.update(task);
+    }
 
 }
