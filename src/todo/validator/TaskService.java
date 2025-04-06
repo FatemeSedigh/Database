@@ -30,7 +30,12 @@ public class TaskService {
 
     }
 
-
+    public static void updateTaskTitle(int taskId, String newTitle)
+            throws EntityNotFoundException, InvalidEntityException {
+        Task task = (Task) Database.get(taskId);
+        task.setTitle(newTitle);
+        Database.update(task);
+    }
 
 
 
