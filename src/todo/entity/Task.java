@@ -24,6 +24,10 @@ public class Task extends Entity implements Trackable {
         this.status = Status.NotStarted;
     }
 
+    @Override public void setCreationDate(Date date) { this.creationDate = date; }
+    @Override public Date getCreationDate() { return creationDate; }
+    @Override public void setLastModificationDate(Date date) { this.lastModificationDate = date; }
+    @Override public Date getLastModificationDate() { return lastModificationDate; }
 
 
 }
