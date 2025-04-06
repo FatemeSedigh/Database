@@ -37,6 +37,13 @@ public class TaskService {
         Database.update(task);
     }
 
+    public static void updateTaskDescription(int taskId, String newDescription)
+            throws EntityNotFoundException, InvalidEntityException {
+        Task task = (Task) Database.get(taskId);
+        task.setDescription(newDescription);
+        Database.update(task);
+    }
+
 
 
 }
