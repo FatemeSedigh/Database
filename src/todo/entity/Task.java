@@ -38,6 +38,9 @@ public class Task extends Entity implements Trackable {
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
 
-
+    @Override
+    public int getEntityCode() {
+        return 1;
+    }
 
 }
