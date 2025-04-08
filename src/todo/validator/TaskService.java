@@ -9,6 +9,7 @@ import todo.service.TaskValidator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskService {
 
@@ -72,5 +73,10 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    public static List<Task> getIncompleteTasks() {
+        return getAllTasks().stream()
+                .filter(task -> task.getStatus() != Task.Status.Completed)
+                .collect(Collectors.toList());
+    }
 
 }
