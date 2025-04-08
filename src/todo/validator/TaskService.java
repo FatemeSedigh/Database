@@ -83,5 +83,13 @@ public class TaskService {
         return (Task) Database.get(taskId);
     }
 
+    public static List<Step> getAllStepsForTask(int taskId) {
+        return Database.getAll(Step.class.getSimpleName()).stream()
+                .map(entity -> (Step) entity)
+                .filter(step -> step.getTaskRef() == taskId)
+                .collect(Collectors.toList());
+    }
+
+
 
 }
