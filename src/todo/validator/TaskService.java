@@ -65,5 +65,12 @@ public class TaskService {
         Database.delete(taskId);
     }
 
+    public static List<Task> getAllTasks() {
+        return Database.getAll(Task.class.getSimpleName()).stream()
+                .map(entity -> (Task) entity)
+                .sorted((t1, t2) -> t1.getDueDate().compareTo(t2.getDueDate()))
+                .collect(Collectors.toList());
+    }
+
 
 }
