@@ -27,6 +27,9 @@ public class TaskService {
         task.setStatus(newStatus);
         Database.update(task);
 
+        if (newStatus == Status.Completed) {
+            completeAllStepsForTask(taskId);
+        }
 
     }
 
@@ -41,6 +44,13 @@ public class TaskService {
             throws EntityNotFoundException, InvalidEntityException {
         Task task = (Task) Database.get(taskId);
         task.setDescription(newDescription);
+        Database.update(task);
+    }
+
+    public static void updateTaskDueDate(int taskId, Date newDueDate)
+            throws EntityNotFoundException, InvalidEntityException {
+        Task task = (Task) Database.get(taskId);
+        task.setDueDate(newDueDate);
         Database.update(task);
     }
 
