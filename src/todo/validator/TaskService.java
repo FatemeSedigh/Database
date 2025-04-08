@@ -90,6 +90,18 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    private static void completeAllStepsForTask(int taskId)
+            throws EntityNotFoundException, InvalidEntityException {
+        List<Step> steps = getAllStepsForTask(taskId);
+        for (Step step : steps) {
+            if (step.getStatus() != Step.Status.Completed) {
+                step.setStatus(Step.Status.Completed);
+                Database.update(step);
+            }
+        }
+    }
+
+
 
 
 }
