@@ -3,6 +3,7 @@ package todo.validator;
 import db.Database;
 import db.exception.EntityNotFoundException;
 import db.exception.InvalidEntityException;
+import todo.entity.Step;
 import todo.entity.Task;
 import todo.service.TaskValidator;
 
@@ -54,6 +55,14 @@ public class TaskService {
         Database.update(task);
     }
 
+    public static void deleteTask(int taskId)
+            throws EntityNotFoundException {
+        List<Step> taskSteps = getAllStepsForTask(taskId);
+        for (Step step : taskSteps) {
+            Database.delete(step.id);
+        }
+        Database.delete(taskId);
+    }
 
 
 }
