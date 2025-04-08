@@ -79,4 +79,9 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
+    public static Task getTaskById(int taskId) throws EntityNotFoundException {
+        return (Task) Database.get(taskId);
+    }
+
+
 }
