@@ -7,6 +7,8 @@ import todo.entity.Step;
 import todo.entity.Task;
 import todo.service.TaskValidator;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,17 +68,24 @@ public class TaskService {
         Database.delete(taskId);
     }
 
-    public static List<Task> getAllTasks() {
-        return Database.getAll(Task.class.getSimpleName()).stream()
-                .map(entity -> (Task) entity)
-                .sorted((t1, t2) -> t1.getDueDate().compareTo(t2.getDueDate()))
-                .collect(Collectors.toList());
+    public List<Task> getAllTasks() {
+        try {
+            return Database.getAll(Task.class.getSimpleName()).stream().map(Task.class::cast).sorted(Comparator.comparing(Task::getDueDate)).collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error fetching tasks: " + e.getMessage());
+            return new ArrayList<>(); // Return empty list on error
+        }
     }
 
-    public static List<Task> getIncompleteTasks() {
-        return getAllTasks().stream()
-                .filter(task -> task.getStatus() != Task.Status.Completed)
-                .collect(Collectors.toList());
+    public List<Task> getIncompleteTasks() {
+        try {
+            return getAllTasks().stream()
+                    .filter(task -> task.getStatus() != Task.Status.Completed)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error fetching incomplete tasks: " + e.getMessage());
+            return new ArrayList<>(); // Return empty list on error
+        }
     }
 
     public static Task getTaskById(int taskId) throws EntityNotFoundException {
@@ -122,6 +131,5 @@ public class TaskService {
 
         Database.update(task);
     }
-
-
 }
+
