@@ -1,4 +1,4 @@
-package todo.service;
+package todo.validator;
 
 import db.Entity;
 import db.Validator;
@@ -18,4 +18,5 @@ public class TaskValidator implements Validator{
             throw new InvalidEntityException("عنوان تسک نمی‌تواند خالی باشد");
         }
     }
+
 }
