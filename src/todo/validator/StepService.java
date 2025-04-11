@@ -64,5 +64,10 @@ public class StepService {
         TaskService.updateTaskStatusBasedOnSteps(taskId);
     }
 
+    public static long getCompletedStepsCount(int taskId) {
+        return getAllStepsForTask(taskId).stream()
+                .filter(step -> step.getStatus() == Step.Status.Completed)
+                .count();
+    }
 
 }
