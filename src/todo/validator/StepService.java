@@ -49,6 +49,12 @@ public class StepService {
         TaskService.updateTaskStatusBasedOnSteps(step.getTaskRef());
     }
 
+    public static void updateStepTitle(int stepId, String newTitle)
+            throws EntityNotFoundException, InvalidEntityException {
+        Step step = getStepById(stepId);
+        step.setTitle(newTitle);
+        Database.update(step);
+    }
 
 
 
