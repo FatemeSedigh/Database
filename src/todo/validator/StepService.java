@@ -41,7 +41,7 @@ public class StepService {
         return (Step) Database.get(stepId);
     }
 
-    public static void updateStepStatus(int stepId, Status newStatus)
+    public static void updateStepStatus(int stepId, Step.Status newStatus)
             throws EntityNotFoundException, InvalidEntityException {
         Step step = getStepById(stepId);
         step.setStatus(newStatus);
