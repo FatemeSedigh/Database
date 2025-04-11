@@ -56,6 +56,13 @@ public class StepService {
         Database.update(step);
     }
 
+    public static void deleteStep(int stepId)
+            throws EntityNotFoundException, InvalidEntityException {
+        Step step = getStepById(stepId);
+        int taskId = step.getTaskRef();
+        Database.delete(stepId);
+        TaskService.updateTaskStatusBasedOnSteps(taskId);
+    }
 
 
 }
