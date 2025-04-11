@@ -32,7 +32,7 @@ public class TaskService {
         task.setStatus(newStatus);
         Database.update(task);
 
-        if (newStatus == Status.Completed) {
+        if (newStatus == Step.Status.Completed) {
             completeAllStepsForTask(taskId);
         }
 
