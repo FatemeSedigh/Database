@@ -1,12 +1,15 @@
-package todo.validator;
+package todo.service;
 
 import db.Database;
+import db.Entity;
 import db.exception.EntityNotFoundException;
 import db.exception.InvalidEntityException;
 import todo.entity.Step;
 import todo.entity.Task;
-import todo.service.TaskValidator;
+import todo.validator.TaskValidator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -14,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TaskService {
+
+    private TaskService() {}
 
     static {
         Database.registerValidator(1, new TaskValidator());
@@ -32,7 +37,7 @@ public class TaskService {
         task.setStatus(newStatus);
         Database.update(task);
 
-        if (newStatus == Step.Status.Completed) {
+        if (newStatus == Task.Status.Completed) {
             completeAllStepsForTask(taskId);
         }
 
@@ -68,45 +73,50 @@ public class TaskService {
         Database.delete(taskId);
     }
 
-    public List<Task> getAllTasks() {
-        try {
-            return Database.getAll(Task.class.getSimpleName()).stream().map(Task.class::cast).sorted(Comparator.comparing(Task::getDueDate)).collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error fetching tasks: " + e.getMessage());
-            return new ArrayList<>(); // Return empty list on error
-        }
-    }
-
-    public List<Task> getIncompleteTasks() {
-        try {
-            return getAllTasks().stream()
-                    .filter(task -> task.getStatus() != Task.Status.Completed)
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error fetching incomplete tasks: " + e.getMessage());
-            return new ArrayList<>(); // Return empty list on error
-        }
-    }
-
     public static Task getTaskById(int taskId) throws EntityNotFoundException {
         return (Task) Database.get(taskId);
     }
 
-    public static List<Step> getAllStepsForTask(int taskId) {
-        return Database.getAll(Step.class.getSimpleName()).stream()
-                .map(entity -> (Step) entity)
-                .filter(step -> step.getTaskRef() == taskId)
-                .collect(Collectors.toList());
+    public static ArrayList<Task> sortedTasks() {
+        ArrayList<Entity> tasks = Database.getAll(1);
+        ArrayList<Task> sortedTasks = new ArrayList<>();
+        for (Entity entity : tasks) {
+            Task task = (Task) entity;
+            sortedTasks.add(task);
+        }
+        sortedTasks.sort(Comparator.comparing(task -> task.dueDate));
+        return sortedTasks;
+    }
+
+    public static ArrayList<Task> incompleteTasks() {
+        ArrayList<Task> tasks = sortedTasks();
+        ArrayList<Task> incompleteTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getStatus() == Task.Status.InProgress || task.getStatus() == Task.Status.NotStarted) {
+                incompleteTasks.add(task);
+            }
+        }
+        return incompleteTasks;
+    }
+
+    public static ArrayList<Step> getAllStepsForTask(int taskId) {
+        ArrayList<Entity> step = Database.getAll(2);
+        ArrayList<Step> steps = new ArrayList<>();
+        for (Entity entity : step) {
+            Step stepEntity = (Step) entity;
+            if (taskId == stepEntity.getTaskRef()) {
+                steps.add(stepEntity);
+            }
+        }
+        return steps;
     }
 
     private static void completeAllStepsForTask(int taskId)
             throws EntityNotFoundException, InvalidEntityException {
         List<Step> steps = getAllStepsForTask(taskId);
         for (Step step : steps) {
-            if (step.getStatus() != Step.Status.Completed) {
-                step.setStatus(Step.Status.Completed);
-                Database.update(step);
-            }
+            step.setStatus(Step.Status.Completed);
+            Database.update(step);
         }
     }
 
@@ -131,5 +141,14 @@ public class TaskService {
 
         Database.update(task);
     }
+
+    public static Date date(String dateString) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Cannot save task.\nError: Invalid date format.");
+        }
+    }
+
 }
 
