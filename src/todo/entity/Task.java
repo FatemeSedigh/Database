@@ -43,4 +43,13 @@ public class Task extends Entity implements Trackable {
         return 1;
     }
 
+    @Override
+    public Task copy() {
+        Task copyTask = new Task(this.title, this.description, this.dueDate);
+        copyTask.id = id;
+        copyTask.dueDate = dueDate;
+        copyTask.status = status;
+        return copyTask;
+    }
+
 }

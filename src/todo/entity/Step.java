@@ -29,4 +29,12 @@ public class Step extends Entity {
         return 2;
     }
 
+    @Override
+    public Entity copy() {
+        Step copyStep = new Step(this.title, this.taskRef);
+        copyStep.id = this.id;
+        copyStep.status = this.status;
+        return copyStep;
+    }
+
 }

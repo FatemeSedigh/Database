@@ -14,6 +14,8 @@ public class Database {
     private static int nextId = 1;
     private static HashMap<Integer, Validator> validators = new HashMap<>();
 
+    private Database() {}
+
     public static void registerValidator(int entityCode, Validator validator) {
         if (validators.containsKey(entityCode)) {
             throw new IllegalArgumentException("Validator برای این entityCode قبلا ثبت شده");
@@ -35,8 +37,9 @@ public class Database {
             trackable.setLastModificationDate(now);
         }
 
-        e.id = nextId++;
+        e.id = nextId;
         entities.add(e.copy());
+        nextId++;
     }
 
 
@@ -84,6 +87,16 @@ public class Database {
         }
 
         entities.set(index, e.copy());
+    }
+
+    public static ArrayList<Entity> getAll(int entityCode) {
+        ArrayList<Entity> entityList = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity.getEntityCode() == entityCode) {
+                entityList.add(entity.copy());
+            }
+        }
+        return entityList;
     }
 
 }

@@ -1,4 +1,4 @@
-package todo.service;
+package todo.validator;
 
 import db.Database;
 import db.Entity;
@@ -17,7 +17,7 @@ public class StepValidator implements Validator {
         }
 
         Step step = (Step) entity;
-        if (step.getTitle() == null || step.getTitle().trim().isEmpty()) {
+        if (step.getTitle() == null || step.getTitle().isEmpty()) {
             throw new InvalidEntityException("عنوان قدم نمی‌تواند خالی باشد");
         }
 
