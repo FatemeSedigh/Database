@@ -37,6 +37,10 @@ public class StepService {
         }
     }
 
+    public static Step getStepById(int stepId) throws EntityNotFoundException {
+        return (Step) Database.get(stepId);
+    }
+
 
 
 }
