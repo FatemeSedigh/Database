@@ -6,6 +6,10 @@ import db.exception.InvalidEntityException;
 import todo.entity.Step;
 import todo.service.StepValidator;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class StepService {
 
     static {
@@ -19,6 +23,18 @@ public class StepService {
         Step step = new Step(title, taskId);
         Database.add(step);
         return step.id;
+    }
+
+    public static List<Step> getAllStepsForTask(int taskId) {
+        try {
+            return Database.getAll(Step.class.getSimpleName()).stream()
+                    .map(Step.class::cast)
+                    .filter(step -> step.getTaskRef() == taskId)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("خطا در دریافت قدم‌ها: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
 
