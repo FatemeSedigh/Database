@@ -70,4 +70,10 @@ public class StepService {
                 .count();
     }
 
+    public static boolean areAllStepsCompleted(int taskId) {
+        List<Step> steps = getAllStepsForTask(taskId);
+        return !steps.isEmpty() &&
+                steps.stream().allMatch(s -> s.getStatus() == Step.Status.Completed);
+    }
+
 }
