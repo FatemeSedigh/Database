@@ -17,7 +17,7 @@ public class StepService {
 
     public static int createStep(int taskId, String title)
             throws InvalidEntityException, EntityNotFoundException {
-        Task task = TaskService.getTaskById(taskId);
+        Task task = todo.service.TaskService.getTaskById(taskId);
         Step step = new Step(title, taskId);
         Database.add(step);
         return step.id;
@@ -32,7 +32,7 @@ public class StepService {
         Step step = getStepById(stepId);
         step.setStatus(newStatus);
         Database.update(step);
-        TaskService.updateTaskStatusBasedOnSteps(step.getTaskRef());
+        todo.service.TaskService.updateTaskStatusBasedOnSteps(step.getTaskRef());
     }
 
     public static void updateStepTitle(int stepId, String newTitle)
@@ -47,17 +47,17 @@ public class StepService {
         Step step = getStepById(stepId);
         int taskId = step.getTaskRef();
         Database.delete(stepId);
-        TaskService.updateTaskStatusBasedOnSteps(taskId);
+        todo.service.TaskService.updateTaskStatusBasedOnSteps(taskId);
     }
 
     public static long getCompletedStepsCount(int taskId) {
-        return TaskService.getAllStepsForTask(taskId).stream()
+        return todo.service.TaskService.getAllStepsForTask(taskId).stream()
                 .filter(step -> step.getStatus() == Step.Status.Completed)
                 .count();
     }
 
     public static boolean areAllStepsCompleted(int taskId) {
-        List<Step> steps = TaskService.getAllStepsForTask(taskId);
+        List<Step> steps = todo.service.TaskService.getAllStepsForTask(taskId);
         return !steps.isEmpty() &&
                 steps.stream().allMatch(s -> s.getStatus() == Step.Status.Completed);
     }

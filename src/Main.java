@@ -2,6 +2,8 @@ import db.*;
 import db.exception.*;
 import todo.entity.*;
 import todo.service.*;
+import todo.service.StepService;
+import todo.service.TaskService;
 import todo.validator.TaskService;
 
 import java.text.SimpleDateFormat;
@@ -94,6 +96,7 @@ public class Main {
         System.out.println("ID:");
         int id = Integer.parseInt(sc.nextLine());
 
+        TaskService TaskService;
         Task task = TaskService.getTaskById(id);
 
         System.out.println("Field:");
